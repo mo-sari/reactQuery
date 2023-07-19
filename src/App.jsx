@@ -3,8 +3,12 @@ import { HomePage } from "./Components/HomePage";
 import { SuperHeros } from "./Components/SuperHeros";
 import { RqSuperHeros } from "./Components/RqSuperHeros";
 import "./App.css";
+import { QueryClientProvider,QueryClient } from "react-query";
+const queryClient = new QueryClient();
 const App = () => {
-  return <Router>
+  return <QueryClientProvider client={queryClient}>
+
+   <Router>
     <div>
         <nav>
           <ul>
@@ -28,5 +32,6 @@ const App = () => {
         </Routes>
       </div>
   </Router>
+  </QueryClientProvider>
 };
 export default App;
