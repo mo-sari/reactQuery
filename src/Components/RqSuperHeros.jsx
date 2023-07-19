@@ -9,6 +9,7 @@ export const RqSuperHeros = () => {
   //to store our data (isLoading is gone be false if we fatch again in
   //that time but isFetching is gona be true) but staleTime stops even
   //the Refetching that happens behind the scene.
+  //the default value for staleTime is 0.
   const {isLoading,data,isError,error,isFetching} = useQuery('super-heros',fetchData,{
     cacheTime:5000,
     staleTime:20000
