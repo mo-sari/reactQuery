@@ -5,12 +5,13 @@ export const RqSuperHeros = () => {
   const fetchData = ()=>{
     return axios.get('http://localhost:4000/superheroes');
   }
-  //since react query caches the data after the first fetching
-  //you can have a third argument for useQuery and specify how
-  //long you want react query to use the cashed data.
-  //the default time that react query saves the data is 5 minutes.
+  //with cashTime we just specify for how long we want react query
+  //to store our data (isLoading is gone be false if we fatch again in
+  //that time but isFetching is gona be true) but staleTime stops even
+  //the Refetching that happens behind the scene.
   const {isLoading,data,isError,error,isFetching} = useQuery('super-heros',fetchData,{
-    cacheTime:5000
+    cacheTime:5000,
+    staleTime:20000
   })
   console.log(isLoading,isFetching);
   if (isLoading) {
