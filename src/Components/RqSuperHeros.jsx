@@ -5,9 +5,12 @@ export const RqSuperHeros = () => {
   const fetchData = ()=>{
     return axios.get('http://localhost:4000/superheroes');
   }
-  const {isLoading,data} = useQuery('super-heros',fetchData)
+  const {isLoading,data,isError,error} = useQuery('super-heros',fetchData)
   if (isLoading) {
     return <h2>Loading ....</h2>
+  }
+  if (isError) {
+    return <div>{error.message}</div>
   }
   return (
     <>
