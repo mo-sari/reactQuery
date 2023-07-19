@@ -5,14 +5,20 @@ export const RqSuperHeros = () => {
   const fetchData = ()=>{
     return axios.get('http://localhost:4000/superheroes');
   }
-  //with cashTime we just specify for how long we want react query
-  //to store our data (isLoading is gone be false if we fatch again in
-  //that time but isFetching is gona be true) but staleTime stops even
-  //the Refetching that happens behind the scene.
-  //the default value for staleTime is 0.
   const {isLoading,data,isError,error,isFetching} = useQuery('super-heros',fetchData,{
-    cacheTime:5000,
-    staleTime:20000
+    //based on the value you provie to the below property
+    //it fetches or doesn't fetch whenever you Mount to the page.
+    //the default value is true for this property.
+    refetchOnMount:false,
+    //if you change the data in database the old axios way will not 
+    //change the value on the windows until you reload the page and
+    //do the fetching again, but the below property will make sure 
+    //anytime your tab loses focus and regains that, a background
+    //refetch will be done.
+    //the default value is true for this property.
+    //this will make sure your value on screen is in sync with the
+    //actual data in database.
+    refetchOnWindowFocus:true
   })
   console.log(isLoading,isFetching);
   if (isLoading) {
