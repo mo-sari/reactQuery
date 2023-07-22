@@ -5,21 +5,20 @@ export const RqSuperHeros = () => {
   const fetchData = ()=>{
     return axios.get('http://localhost:4000/superheroes');
   }
-  const {isLoading,data,isError,error,isFetching} = useQuery('super-heros'
+  const {isLoading,data,isError,error,isFetching,refetch} = useQuery('super-heros'
   ,fetchData,{
-    //the first property below makes your component refetch 
-    //in an specific period of time without user doing anything
-    //the default value for this property is false but you can
-    //set a number 
-    //first property doesn't work when the web page loses focus
-    //but using the second property you can make sure the refecthing
-    //on intervals is happending even when the page loses focus
-    //you would use these properties when your data changes every now and then
-    refetchInterval:4000,
-    refetchIntervalInBackground:true
+    //if you want the fetchign proccess to happen after specific
+    //event there are two steps you must follow
+    //1) you disable the fetchonmount 
+    //2) get the refetch function from reactQuery and use it
+    //wherever you want to that event to happen
+    enabled:false
   })
   console.log(isLoading,isFetching);
-  if (isLoading) {
+  if (isLoading || isFetching) {
+    //since the isLoading is not gone happen after first fetching 
+    //(becuase of cashing) we can use isFetching to still show the
+    //isLoading text to the user.
     return <h2>Loading ....</h2>
   }
   if (isError) {
@@ -28,7 +27,9 @@ export const RqSuperHeros = () => {
   return (
     <>
     <h2>RqSuperHeors</h2>
+    <button onClick={refetch}>refetch here</button>
     {
+
       data?.data.map(hero=>{
         return <div key={hero.name} >{hero.name}</div>
       })
