@@ -5,20 +5,26 @@ export const RqSuperHeros = () => {
   const fetchData = ()=>{
     return axios.get('http://localhost:4000/superheroes');
   }
+
+  //you want to know how to use these success and error functions in
+  //useQuery configurations ? define state variables and change them based
+  //on the result in these two functions
+  //for example define a state value for polling and set it to 3000 
+  // in reactQuery use that for refetchOnInterval and in onError set
+  //the state value to false, that will stop reactQuery polling the data
+  //on Intervals
+  const onSuccess = (data)=>{
+    console.log('perform the side effect after successfully fetching the data',data);
+  }
+  const onError = (error)=>{
+    console.log('perform the side effect when the fetching failed',error);
+  }
   const {isLoading,data,isError,error,isFetching,refetch} = useQuery('super-heros'
   ,fetchData,{
-    //if you want the fetchign proccess to happen after specific
-    //event there are two steps you must follow
-    //1) you disable the fetchonmount 
-    //2) get the refetch function from reactQuery and use it
-    //wherever you want to that event to happen
-    enabled:false
+    onError,
+    onSuccess:onSuccess
   })
-  console.log(isLoading,isFetching);
   if (isLoading || isFetching) {
-    //since the isLoading is not gone happen after first fetching 
-    //(becuase of cashing) we can use isFetching to still show the
-    //isLoading text to the user.
     return <h2>Loading ....</h2>
   }
   if (isError) {
@@ -27,7 +33,7 @@ export const RqSuperHeros = () => {
   return (
     <>
     <h2>RqSuperHeors</h2>
-    <button onClick={refetch}>refetch here</button>
+    <button >refetch here</button>
     {
 
       data?.data.map(hero=>{
