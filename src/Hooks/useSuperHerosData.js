@@ -11,12 +11,12 @@ const useSuperHerosData =(onSuccess,onError)=>{
     ,fetchData,{ 
     onSuccess,
     onError,
-    select:(data)=>{
-        const heroNames = data.data.map(h=>{
-        return h.name;
-        })
-        return heroNames;
-    }
+    // select:(data)=>{
+    //     const heroNames = data.data.map(h=>{
+    //     return h.name;
+    //     })
+    //     return heroNames;
+    // }
     })
 }
 export default useSuperHerosData;
