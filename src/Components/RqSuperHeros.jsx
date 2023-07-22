@@ -6,24 +6,22 @@ export const RqSuperHeros = () => {
     return axios.get('http://localhost:4000/superheroes');
   }
 
-  //you want to know how to use these success and error functions in
-  //useQuery configurations ? define state variables and change them based
-  //on the result in these two functions
-  //for example define a state value for polling and set it to 3000 
-  // in reactQuery use that for refetchOnInterval and in onError set
-  //the state value to false, that will stop reactQuery polling the data
-  //on Intervals
-  const onSuccess = (data)=>{
-    console.log('perform the side effect after successfully fetching the data',data);
-  }
-  const onError = (error)=>{
-    console.log('perform the side effect when the fetching failed',error);
-  }
+  
   const {isLoading,data,isError,error,isFetching,refetch} = useQuery('super-heros'
   ,fetchData,{
-    onError,
-    onSuccess:onSuccess
+    //this code below changes our data to just an array of names
+    //before: our data was the entire array of SuperHeros
+    //after: we changed the data to an array of only name of heros
+    //this is called data transformation.
+    //we can also use filter method to filter the data 
+    select:(data)=>{
+      const heroNames = data.data.map(h=>{
+        return h.name;
+      })
+      return heroNames;
+    }
   })
+  console.log(data);
   if (isLoading || isFetching) {
     return <h2>Loading ....</h2>
   }
@@ -36,8 +34,11 @@ export const RqSuperHeros = () => {
     <button >refetch here</button>
     {
 
-      data?.data.map(hero=>{
-        return <div key={hero.name} >{hero.name}</div>
+      // data?.data.map(hero=>{
+      //   return <div key={hero.name} >{hero.name}</div>
+      // })
+      data.map(Hero=>{
+        return <div key={Hero}>{Hero}</div>
       })
     }
     </>
