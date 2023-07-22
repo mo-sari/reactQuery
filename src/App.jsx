@@ -6,6 +6,7 @@ import "./App.css";
 import { QueryClientProvider,QueryClient } from "react-query";
 import {ReactQueryDevtools} from "react-query/devtools"
 import { RqSuperHero } from "./Components/RqSuperHero";
+import { RqParallelFetching } from "./Components/RqParallelFetching";
 const queryClient = new QueryClient();
 const App = () => {
   return <QueryClientProvider client={queryClient}>
@@ -26,7 +27,9 @@ const App = () => {
             </ul>
           </nav>
           <Routes>
-          <Route path="/rqsuperheros/:id" element={<RqSuperHero/>}/>          <Route path="/" element={<HomePage/>}/>
+          <Route path="/" element={<HomePage/>}/>
+          <Route path="/rqparallelfetching" element={<RqParallelFetching/>}/>
+          <Route path="/rqsuperheros/:id" element={<RqSuperHero/>}/>          
           <Route path="superheros" element={<SuperHeros/>}/>
           <Route path="rqsuperheros" element={<RqSuperHeros/>}/>
             
