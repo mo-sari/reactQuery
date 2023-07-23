@@ -43,7 +43,7 @@ export const RqSuperHeros = () => {
       onChange={(e)=>setAlterEgo(e.target.value)} />
       <button onClick={handlePostRequest}>click to add</button>
     </div>
-    <button >refetch here</button>
+    <button onClick={refetch}>refetch here</button>
     {
       data?.data.map(hero=>{
         return <div key={hero.id} >
