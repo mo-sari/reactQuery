@@ -13,6 +13,8 @@ export const RqSuperHeros = () => {
     console.log(error);
   }
   const {data,isError,isLoading,isFetching,refetch} = useSuperHerosData(onSuccess,onError);
+  //this line below could also return isLoading,Error and isError
+  //to use while posting new information
   const {mutate:addHero} = usePostSuperHero();
   const handlePostRequest = ()=>{
     const newHero = {
