@@ -1,4 +1,4 @@
-import {useMutation, useQuery} from 'react-query';
+import {useMutation, useQuery,useQueryClient} from 'react-query';
 import axios from 'axios';
 //this custome hook we can use wherever we want without
 //having to duplicate the code
@@ -13,15 +13,17 @@ const useSuperHerosData =(onSuccess,onError)=>{
     ,fetchData,{ 
     onSuccess,
     onError,
-    // select:(data)=>{
-    //     const heroNames = data.data.map(h=>{
-    //     return h.name;
-    //     })
-    //     return heroNames;
-    // }
+    
     })
 }
 export default useSuperHerosData;
 export const usePostSuperHero = ()=>{
-    return useMutation(postData);
+    //before we had to refetch to see the added value
+    //but with query invalidation we can have that automatically
+    const queryClient = useQueryClient();
+    return useMutation(postData,{
+        onSuccess:()=>{
+            queryClient.invalidateQueries('super-heros');
+        }
+    });
 }
