@@ -1,25 +1,28 @@
 import axios from "axios"
-import { useQuery } from "react-query"
+import { useQuery,useQueryClient } from "react-query"
 const fetchSingleSuperHero = ({queryKey})=>{
     const id = queryKey[1];
     return axios.get(`http://localhost:4000/superheroes/${id}`)
 }
+//using initialData 
+//in rqsuperheros we fetched some data that we are using them also
+// in singlesuperhero. in cases like this we can use those data 
+//in another component to save some time 
+//we are actually using the cashed data in this case
 const useSingleSuperHero = (heroId)=>{
-    //here we mentioned heroId in the queryKey array because
-    //if we don't do that the cashing will not allow us to get
-    //the superhero based on id, it will just give us the same
-    //result because the url and querykey haven't changed .
-    return useQuery(['super-hero',heroId],fetchSingleSuperHero)
+    const queryClient = useQueryClient();
+    return useQuery(['super-hero',heroId],fetchSingleSuperHero,{
+        initialData: ()=>{
+            const hero = queryClient.getQueriesData('super-heros')
+                ?.data?.find(hero=> hero.id === heroId);
+            if (hero) {
+                return {data:hero}
+            }
+            else{
+                return undefined;
+            }
+        }
+    })
 }
 
 export default useSingleSuperHero;
-
-//this below is the easier way to do it
-//but above is the more common way
-// const fetchSingleSuperHero = (id)=>{
-//     return axios.get(`http://localhost:4000/superheroes/${id}`)
-// }
-// const useSingleSuperHero = (heroId)=>{
-
-//     return useQuery(['super-hero',heroId],()=> fetchSingleSuperHero(heroId))
-// }
