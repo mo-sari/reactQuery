@@ -9,6 +9,7 @@ import { RqSuperHero } from "./Components/RqSuperHero";
 import { RqParallelFetching } from "./Components/RqParallelFetching";
 import { DynamicParallelPage } from "./Components/DynamicParallelPage";
 import { DependentQueriesPage } from "./Components/DependentQueriesPage";
+import { PaginatedQueriesPage } from "./Components/PaginatedQueriesPage";
 const queryClient = new QueryClient();
 const App = () => {
   return <QueryClientProvider client={queryClient}>
@@ -36,7 +37,7 @@ const App = () => {
           <Route path="/rqsuperheros/:id" element={<RqSuperHero/>}/>          
           <Route path="superheros" element={<SuperHeros/>}/>
           <Route path="rqsuperheros" element={<RqSuperHeros/>}/>
-            
+          <Route path="paginatedqueries" element={<PaginatedQueriesPage/>}/>  
           </Routes>
         </div>
     </Router>
