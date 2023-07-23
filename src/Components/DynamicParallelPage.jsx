@@ -5,6 +5,8 @@ const fetchSuperHero = (heroId)=>{
     return axios.get(`http://localhost:4000/superheroes/${heroId}`);
 
 }
+//the benefit of parallel query is that you fetch several data
+//once that increases the efficiency
 export const DynamicParallelPage = ({heroIds}) => {
     const queryResults = useQueries(
         heroIds.map(id=>{
